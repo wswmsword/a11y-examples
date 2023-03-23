@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>dialog</title>
+		<style>
+			#dialog {
+				width: 360px;
+				height: 240px;
+				border: 1px solid black;
+			}
+			.centre {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			.openedDialog {
+				display: block;
+			}
+			.closedDialog {
+				display: none;
+			}
+			a:focus, button:focus, #dialog:focus {
+				outline: thick double #32a1ce;
+			}
+		</style>
+	</head>
+	<body>
+		<button id="open">打开一包糖</button>
+		<button id="walk">走两步</button>
+		<div
+			id="dialog"
+			aria-modal="true"
+			aria-labelledby="modal-title"
+			class="centre closedDialog"
+			role="dialog"
+			tabindex="0">
+			<h2 id="modal-title">吃一颗糖</h2>
+			<ul>
+				<li><a id="firstFocusA" href="#">椰蓉酥心糖</a></li>
+				<li><a href="#">不二家棒棒糖</a></li>
+				<li><a href="#">樱花软糖</a></li>
+				<li><a href="#">大白兔奶糖</a></li>
+				<li><a href="#">夹心巧克力</a></li>
+			</ul>
+			<div class="ctrls">
+                <button id="close">Close</button>
+    			<button id="lastFocusBtn">OK</button>
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+		let focusedElementBeforeDialog = null;
+	    const dialog = document.getElementById("dialog");
+	    const openButton = document.getElementById("open");
+	    const closeButton = document.getElementById("close");
+	    const lastFocusBtn = document.getElementById("lastFocusBtn");
+	    const firstFocusA = document.getElementById("firstFocusA");
+		openButton.addEventListener("click", open);
+		closeButton.addEventListener("click", close);
+		dialog.addEventListener("keydown", escClose);
+		lastFocusBtn.addEventListener("keydown", skipToDialog);
+		dialog.addEventListener("keydown", skipToLast);
+
+		function open() {
+			focusedElementBeforeDialog = document.activeElement;
+			dialog.classList.remove("closedDialog");
+			dialog.classList.add("openedDiaplog");
+			dialog.focus();
+		}
+		function close() {
+			dialog.classList.add("closedDialog");
+			dialog.classList.remove("openedDiaplog");
+			focusedElementBeforeDialog && focusedElementBeforeDialog.focus();
+		}
+		function escClose(e) {
+			if (e.key === "Escape") {
+				close();
+			}
+		}
+		function skipToLast(e) {
+			const inDialog = document.activeElement === dialog;
+			if (inDialog && e.key === "Tab" && e.shiftKey) {
+				e.preventDefault();
+				lastFocusBtn.focus();
+			}
+		}
+		function skipToDialog(e) {
+			if (e.key === "Tab" && !e.shiftKey) {
+				e.preventDefault();
+				dialog.focus();
+			}	
+		}
+	</script>
+</html>
