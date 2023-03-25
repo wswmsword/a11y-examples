@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Direction Panel</title>
+		<style>
+			body {
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				gap: 18px;
+			}
+			.panel {
+				border: 1px solid black;
+				border-radius: 7px;
+				width: 90%;
+				height: 60px;
+				display: flex;
+				align-items: center;
+				justify-content: space-evenly;
+			}
+			a:focus, button:focus, div:focus {
+				outline: 2px dashed seagreen;
+				border-radius: 2px;
+				outline-offset: 3px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="panel" tabindex="0">
+			<button>播放</button>
+			<a href="#">音乐家</a>
+			<a href="#">专辑</a>
+			<button>喜欢</button>
+			<button>更多</button>
+		</div>
+		<div class="panel" tabindex="0">
+			<button>播放</button>
+			<a href="#">音乐家</a>
+			<a href="#">专辑</a>
+			<button>喜欢</button>
+			<button>更多</button>
+		</div>
+		<div class="panel" tabindex="0">
+			<button>播放</button>
+			<a href="#">音乐家</a>
+			<a href="#">专辑</a>
+			<button>喜欢</button>
+			<button>更多</button>
+		</div>
+		<div class="panel" tabindex="0">
+			<button>播放</button>
+			<a href="#">音乐家</a>
+			<a href="#">专辑</a>
+			<button>喜欢</button>
+			<button>更多</button>
+		</div>
+		<div class="panel" tabindex="0">
+			<button>播放</button>
+			<a href="#">音乐家</a>
+			<a href="#">专辑</a>
+			<button>喜欢</button>
+			<button>更多</button>
+		</div>
+	</body>
+	<script>
+		const panels = document.querySelectorAll(".panel");
+		const lastFocusPanelChild = null;
+		let curPanelChildI = null;
+		panels.forEach((panel, i, all) => {
+			const length = all.length;
+			const nextI = (i + 1) % length;
+			const prevI = (i - 1 + length) % length;
+			const childs = panel.children;
+			const childsLen = childs.length;
+			panel.addEventListener("keydown", e => {
+				if (e.key === "Tab") {
+					if (e.shiftKey) {
+						e.preventDefault();
+						all[prevI].focus();
+					} else {
+						e.preventDefault();
+						all[nextI].focus();
+					}
+				} else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+					const nextChildI = curPanelChildI == null ? 0 : (curPanelChildI + 1) % childsLen;
+					childs[nextChildI].focus();
+					curPanelChildI = nextChildI;
+				} else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+					const prevChildI = curPanelChildI == null ? 0 : (curPanelChildI - 1 + childsLen) % childsLen;
+					childs[prevChildI].focus();
+					curPanelChildI = prevChildI;
+				}
+			});
+			Array.from(childs).forEach((child, i, all) => {
+				child.addEventListener("click", e => {
+					curPanelChildI = i;
+				})
+			});
+		})
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
