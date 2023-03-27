@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>enter panel</title>
+    <style>
+      button:focus, div:not(#hidden-end):focus, textarea:focus, input:focus {
+				outline: 2px dashed seagreen;
+				border-radius: 2px;
+				outline-offset: 3px;
+			}
+    </style>
+  </head>
+  <body>
+    <div>
+      <button id="first-button">第一按钮</button>
+      <p>一段话。</p>
+      <div id="input-wrapper" tabindex="0">
+        <label for="name">输入 4 至 8 个字符：</label>
+        <input type="text" id="name" name="name" required minlength="4" maxlength="8" size="10">
+      </div>
+      <p>一段话。</p>
+      <div id="story-wrapper" tabindex="0">
+        <label for="story">写一段故事：</label>
+        <textarea id="story" name="story" rows="5" cols="33">那是一个漆黑的暴风雨之夜……</textarea>
+        <button id="story-button">我写完了</button>
+      </div>
+    </div>
+    <div id="hidden-end" tabindex="0"></div>
+  </body>
+  <script>
+    const firstButton = document.getElementById("first-button");
+    const inputWrapper = document.getElementById("input-wrapper");
+    const storyWrapper = document.getElementById("story-wrapper");
+    const storyButton = document.getElementById("story-button");
+    const nameInput = document.getElementById("name");
+    const storyText = document.getElementById("story");
+    const hiddenEnd = document.getElementById("hidden-end");
+
+    nameInput.addEventListener("keydown", e => {
+      if (e.key === "Tab") {
+        e.preventDefault();
+      }
+    });
+
+    inputWrapper.addEventListener("keydown", e => {
+      if (e.key === "Tab" && document.activeElement === inputWrapper) {
+        if (e.shiftKey) {
+          e.preventDefault();
+          firstButton.focus();
+        } else {
+          e.preventDefault();
+          storyWrapper.focus();
+        }
+      }
+      if (e.key === "Enter") {
+        nameInput.focus();
+      }
+      if (e.key === "Escape") {
+        inputWrapper.focus();
+      }
+    });
+
+    storyWrapper.addEventListener("keydown", e => {
+      if (e.key === "Tab" && document.activeElement === storyWrapper) {
+        if (e.shiftKey) {
+          e.preventDefault();
+          inputWrapper.focus();
+        } else {
+          e.preventDefault();
+          hiddenEnd.focus();
+        }
+      }
+      if (e.key === "Enter") {
+        e.preventDefault();
+        storyText.focus();
+      }
+      if (e.key === "Escape") {
+        storyWrapper.focus();
+      }
+    });
+
+    storyButton.addEventListener("keydown", e => {
+      if (e.key === "Tab") {
+        e.preventDefault();
+        storyText.focus();
+      }
+    });
+    storyText.addEventListener("keydown", e => {
+      if (e.key === "Tab" && e.shiftKey) {
+        e.preventDefault();
+        storyButton.focus();
+      }
+    });
+
+    hiddenEnd.addEventListener("keydown", e => {
+      if (e.key === "Tab" && e.shiftKey) {
+        e.preventDefault();
+        storyWrapper.focus();
+      }
+    });
+  </script>
+</html>
