@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style>
+			button:focus, div:focus {
+				outline: 2px dashed seagreen;
+				border-radius: 2px;
+				outline-offset: 3px;
+			}
+
+			#dialog_1, #dialog_2, #dialog_3, #dialog_4, #dialog_5 {
+				width: 360px;
+				height: 240px;
+				border: 1px solid black;
+				background: white;
+				border-radius: 5px;
+			}
+			.centre {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			#dialog_2 {
+				transform: translate(calc(-50% + 5px), calc(-50% + 5px));
+			}
+			#dialog_3 {
+				transform: translate(calc(-50% + 10px), calc(-50% + 10px));
+			}
+			#dialog_4 {
+				transform: translate(calc(-50% + 15px), calc(-50% + 15px));
+			}
+			#dialog_5 {
+				transform: translate(calc(-50% + 20px), calc(-50% + 20px));
+			}
+			.openedDialog {
+				display: block;
+			}
+			.closedDialog {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<button id="open">打开一包糖</button>
+
+		<div
+			id="dialog_1"
+			aria-modal="true"
+			aria-labelledby="modal-title_1"
+			class="centre closedDialog"
+			role="dialog"
+			tabindex="0">
+			<h2 id="modal-title_1">吃一颗椰蓉酥心糖</h2>
+			<div class="ctrls">
+                <button id="close_1">Close</button>
+    			<button id="lastFocusBtn_1">打开第二包糖</button>
+			</div>
+		</div>
+
+		<div
+			id="dialog_2"
+			aria-modal="true"
+			aria-labelledby="modal-title_2"
+			class="centre closedDialog"
+			role="dialog"
+			tabindex="0">
+			<h2 id="modal-title_2">吃一颗不二家棒棒糖</h2>
+			<div class="ctrls">
+                <button id="close_2">Close</button>
+    			<button id="lastFocusBtn_2">打开第三包糖</button>
+			</div>
+		</div>
+
+		<div
+			id="dialog_3"
+			aria-modal="true"
+			aria-labelledby="modal-title_3"
+			class="centre closedDialog"
+			role="dialog"
+			tabindex="0">
+			<h2 id="modal-title_3">吃一颗樱花软糖</h2>
+			<div class="ctrls">
+                <button id="close_3">Close</button>
+    			<button id="lastFocusBtn_3">打开第四包糖</button>
+			</div>
+		</div>
+
+		<div
+			id="dialog_4"
+			aria-modal="true"
+			aria-labelledby="modal-title_4"
+			class="centre closedDialog"
+			role="dialog"
+			tabindex="0">
+			<h2 id="modal-title_4">吃一颗大白兔奶糖</h2>
+			<div class="ctrls">
+                <button id="close_4">Close</button>
+    			<button id="lastFocusBtn_4">打开第五包糖</button>
+			</div>
+		</div>
+
+		<div
+			id="dialog_5"
+			aria-modal="true"
+			aria-labelledby="modal-title_5"
+			class="centre closedDialog"
+			role="dialog"
+			tabindex="0">
+			<h2 id="modal-title_5">吃一颗夹心巧克力</h2>
+			<div class="ctrls">
+                <button id="close_5">Close</button>
+			</div>
+		</div>
+	</body>
+	<script>
+		const escQueue = [];
+
+
+		const openButton = document.getElementById("open");
+		const dialog1 = document.getElementById("dialog_1");
+		const dialog2 = document.getElementById("dialog_2");
+		const dialog3 = document.getElementById("dialog_3");
+		const dialog4 = document.getElementById("dialog_4");
+		const dialog5 = document.getElementById("dialog_5");
+
+		const closeButton1 = document.getElementById("close_1");
+		const closeButton2 = document.getElementById("close_2");
+		const closeButton3 = document.getElementById("close_3");
+		const closeButton4 = document.getElementById("close_4");
+		const closeButton5 = document.getElementById("close_5");
+
+		const lastFocusBtn1 = document.getElementById("lastFocusBtn_1");
+		const lastFocusBtn2 = document.getElementById("lastFocusBtn_2");
+		const lastFocusBtn3 = document.getElementById("lastFocusBtn_3");
+		const lastFocusBtn4 = document.getElementById("lastFocusBtn_4");
+	</script>
+	<script>
+		openButton.addEventListener("click", open1);
+		lastFocusBtn1.addEventListener("click", open2);
+		lastFocusBtn2.addEventListener("click", open3);
+		lastFocusBtn3.addEventListener("click", open4);
+		lastFocusBtn4.addEventListener("click", open5);
+
+		closeButton1.addEventListener("click", close1);
+		closeButton2.addEventListener("click", close2);
+		closeButton3.addEventListener("click", close3);
+		closeButton4.addEventListener("click", close4);
+		closeButton5.addEventListener("click", close5);
+
+		dialog1.addEventListener("keydown", trap1);
+		dialog2.addEventListener("keydown", trap2);
+		dialog3.addEventListener("keydown", trap3);
+		dialog4.addEventListener("keydown", trap4);
+		dialog5.addEventListener("keydown", trap5);
+
+
+
+		function open1(e) {
+			escQueue.push(document.activeElement);
+			dialog1.classList.remove("closedDialog");
+			dialog1.classList.add("openedDiaplog");
+			dialog1.focus();
+		}
+		function open2() {
+			escQueue.push(document.activeElement);
+			dialog2.classList.remove("closedDialog");
+			dialog2.classList.add("openedDiaplog");
+			dialog2.focus();
+		}
+		function open3() {
+			escQueue.push(document.activeElement);
+			dialog3.classList.remove("closedDialog");
+			dialog3.classList.add("openedDiaplog");
+			dialog3.focus();
+		}
+		function open4() {
+			escQueue.push(document.activeElement);
+			dialog4.classList.remove("closedDialog");
+			dialog4.classList.add("openedDiaplog");
+			dialog4.focus();
+		}
+		function open5() {
+			escQueue.push(document.activeElement);
+			dialog5.classList.remove("closedDialog");
+			dialog5.classList.add("openedDiaplog");
+			dialog5.focus();
+		}
+		function close1() {
+			const nextFocus = escQueue.pop();
+			nextFocus.focus();
+			dialog1.classList.remove("openedDiaplog");
+			dialog1.classList.add("closedDialog");
+		}
+		function close2() {
+			const nextFocus = escQueue.pop();
+			nextFocus.focus();
+			dialog2.classList.remove("openedDiaplog");
+			dialog2.classList.add("closedDialog");
+		}
+		function close3() {
+			const nextFocus = escQueue.pop();
+			nextFocus.focus();
+			dialog3.classList.remove("openedDiaplog");
+			dialog3.classList.add("closedDialog");
+		}
+		function close4() {
+			const nextFocus = escQueue.pop();
+			nextFocus.focus();
+			dialog4.classList.remove("openedDiaplog");
+			dialog4.classList.add("closedDialog");
+		}
+		function close5() {
+			const nextFocus = escQueue.pop();
+			nextFocus.focus();
+			dialog5.classList.remove("openedDiaplog");
+			dialog5.classList.add("closedDialog");
+		}
+		function trap1(e) {
+			if (e.key === "Tab") {
+				if (e.shiftKey) {
+					if (e.target === dialog1 || e.target === closeButton1) {
+						e.preventDefault();
+						lastFocusBtn1.focus();
+					}
+				} else {
+					if (e.target === lastFocusBtn1) {
+						e.preventDefault();
+						closeButton1.focus();
+					}
+				}
+			}
+		}
+		function trap2(e) {
+			if (e.key === "Tab") {
+				if (e.shiftKey) {
+					if (e.target === dialog2 || e.target === closeButton2) {
+						e.preventDefault();
+						lastFocusBtn2.focus();
+					}
+				} else {
+					if (e.target === lastFocusBtn2) {
+						e.preventDefault();
+						closeButton2.focus();
+					}
+				}
+			}
+		}
+		function trap3(e) {
+			if (e.key === "Tab") {
+				if (e.shiftKey) {
+					if (e.target === dialog3 || e.target === closeButton3) {
+						e.preventDefault();
+						lastFocusBtn3.focus();
+					}
+				} else {
+					if (e.target === lastFocusBtn3) {
+						e.preventDefault();
+						closeButton3.focus();
+					}
+				}
+			}
+		}
+		function trap4(e) {
+			if (e.key === "Tab") {
+				if (e.shiftKey) {
+					if (e.target === dialog4 || e.target === closeButton4) {
+						e.preventDefault();
+						lastFocusBtn4.focus();
+					}
+				} else {
+					if (e.target === lastFocusBtn4) {
+						e.preventDefault();
+						closeButton4.focus();
+					}
+				}
+			}
+		}
+		function trap5(e) {
+			if (e.key === "Tab") {
+				if (e.target === dialog5 || e.target === closeButton5) {
+					e.preventDefault();
+					closeButton5.focus();
+				}
+			}
+		}
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
