@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>focus-trap-popup</title>
+		<style>
+			#dialog {
+				width: 360px;
+				height: 240px;
+				border: 1px solid black;
+			}
+			.centre {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			.openedDialog {
+				display: block;
+			}
+			.closedDialog {
+				display: none;
+			}
+			a:focus, button:focus, #dialog:focus {
+				outline: 2px dashed seagreen;
+				border-radius: 2px;
+				outline-offset: 3px;
+			}
+		</style>
+		<script src="https://unpkg.com/tabbable/dist/index.umd.js"></script>
+		<script src="https://unpkg.com/focus-trap/dist/focus-trap.umd.js"></script>
+	</head>
+	<body>
+		<button id="open">打开一包糖</button>
+		<button id="walk">走两步</button>
+		<div
+			id="dialog"
+			aria-modal="true"
+			aria-labelledby="modal-title"
+			class="centre closedDialog"
+			role="dialog"
+			tabindex="0">
+			<h2 id="modal-title">吃一颗糖</h2>
+			<ul>
+				<li><a id="firstFocusA" href="#">椰蓉酥心糖</a></li>
+				<li><a href="#">不二家棒棒糖</a></li>
+				<li><a href="#">樱花软糖</a></li>
+				<li><a href="#">大白兔奶糖</a></li>
+				<li><a href="#">夹心巧克力</a></li>
+			</ul>
+			<div class="ctrls">
+                <button id="close">Close</button>
+    			<button id="lastFocusBtn">OK</button>
+			</div>
+		</div>
+	</body>
+	<script>
+		const dialog = document.getElementById("dialog");
+		const openButton = document.getElementById("open");
+		const closeButton = document.getElementById("close");
+
+		const trap = focusTrap.createFocusTrap("#dialog", {
+			checkCanFocusTrap(trapContainers) {
+				return new Promise(resolve => setTimeout(resolve, 0));
+			},
+			onActivate() {
+				dialog.classList.add("openedDialog");
+				dialog.classList.remove("closedDialog");
+			},
+			onDeactivate() {
+				dialog.classList.remove("openedDialog");
+				dialog.classList.add("closedDialog");
+			},
+		});
+		openButton.addEventListener("click", trap.activate);
+		closeButton.addEventListener("click", trap.deactivate);
+	</script>
+</html>
